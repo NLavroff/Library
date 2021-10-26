@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <title>Bibliothèque</title>
-    <meta charset="utf-8">
-
-</head>
-
-<body>
-    <h1>Bibliothèque</h1> <br>
+<h1>Liste des livres de la blibliothèque</h1> <br>
 
     <?php
     $servername = 'localhost';
