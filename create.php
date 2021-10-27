@@ -47,4 +47,6 @@ if (isset($_POST['btn'])) { // contrôle pour vérifier si la variable $_POST['b
 
     // Exécution de la requête
     mysqli_query($conn, $addBook) or die('Erreur SQL !' . $addBook . '<br>' . mysqli_error($conn));
+    
+    header('Location: read.php');
 }

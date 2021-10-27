@@ -23,9 +23,11 @@ if (isset($_POST['btn'])) {
 
     $editBook = "UPDATE Books SET title='$title', publication='$publication' WHERE id='$id'";
     mysqli_query($conn, $editBook) or die('Erreur SQL !' . $editBook . '<br>' . mysqli_error($conn));
+    
+    header('Location: read.php');
 }
 
-$qry = mysqli_query($conn, "SELECT * from Books where id='$id'");
+$qry = mysqli_query($conn, "SELECT * from Books WHERE id=$id");
 //On créé une variable pour intégrer la value du champ
 $data = mysqli_fetch_array($qry);
 ?>
@@ -47,6 +49,8 @@ $data = mysqli_fetch_array($qry);
                                                             echo "selected";
                                                         } ?> "><?php echo $row["firstname"] . " " . $row["lastname"]; ?></option>
         <?php } ?>
+        
     </select>
-        <input type=" submit" name="btn" value="Modifier">
+    <input type="submit" name="btn" value="Modifier">
 </form>
+
