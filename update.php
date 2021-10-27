@@ -17,16 +17,17 @@ $result = $conn->query("SELECT * FROM Author");
 //On récupère l'id du livre
 $id = $_GET['id'];
 
-$qry = mysqli_query($conn, "SELECT * from Books where id='$id'");
-//On créé une variable pour intégrer la value du champ
-$data = mysqli_fetch_array($qry);
-
-if (isset($_POST['Modifier'])) {
+if (isset($_POST['btn'])) {
     $title = $_POST['title'];
     $publication = $_POST['publication'];
 
-    $editBook = mysqli_query("UPDATE Author SET title='$title', publication='$publication' WHERE Books.id='$id'");
+    $editBook = "UPDATE Books SET title='$title', publication='$publication' WHERE id='$id'";
+    mysqli_query($conn, $editBook) or die('Erreur SQL !' . $editBook . '<br>' . mysqli_error($conn));
 }
+
+$qry = mysqli_query($conn, "SELECT * from Books where id='$id'");
+//On créé une variable pour intégrer la value du champ
+$data = mysqli_fetch_array($qry);
 ?>
 
 <h1>Editer un livre</h1> <br>
@@ -42,12 +43,10 @@ if (isset($_POST['Modifier'])) {
     <label for="author">Auteur du livre</label><br>
     <select name="author_id" id="id"><br>
         <?php while ($row = $result->fetch_assoc()) { ?>
-            <option value=<?php echo $row["id"]; ?>><?php echo $row["firstname"] . " " . $row["lastname"]; ?></option>
+            <option value="<?php echo $row["id"]; ?>" <?php if ($row["id"] === $data["author_id"]) {
+                                                            echo "selected";
+                                                        } ?> "><?php echo $row["firstname"] . " " . $row["lastname"]; ?></option>
         <?php } ?>
-
-        <input type="submit" name="btn" value="Modifier">
-        <?php
-        while ($row = $result->fetch_assoc()) {
-            $title = $row["title"];
-            $publication = $row["publication"];
-        }
+    </select>
+        <input type=" submit" name="btn" value="Modifier">
+</form>

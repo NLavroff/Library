@@ -30,20 +30,21 @@ $result = $conn->query("SELECT * FROM Author");
         <?php while ($row = $result->fetch_assoc()) { ?>
             <option value=<?php echo $row["id"]; ?>><?php echo $row["firstname"] . " " . $row["lastname"]; ?></option>
         <?php } ?>
+    </select>
+    <input type="submit" name="btn" value="Ajouter">
+</form>
+<?php
+if (isset($_POST['btn'])) { // contrôle pour vérifier si la variable $_POST['btn'] est bien définie
+    $title = $_POST['title'];
+    $publication = $_POST['publication'];
+    $id = $_POST['author_id'];
 
-        <input type="submit" name="btn" value="Ajouter">
-        <?php
-        if (isset($_POST['btn'])) { // contrôle pour vérifier si la variable $_POST['btn'] est bien définie
-            $title = $_POST['title'];
-            $publication = $_POST['publication'];
-            $id = $_POST['author_id'];
+    // Fonction pour ignorer les caractères spéciaux
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
 
-            // Fonction pour ignorer les caractères spéciaux
-            $title = mysqli_real_escape_string($conn, $_POST['title']);
+    // Requête d'insertion
+    $addBook = "INSERT INTO Books (title, publication, author_id) VALUES ('$title', '$publication', '$id')";
 
-            // Requête d'insertion
-            $addBook = "INSERT INTO Books (title, publication, author_id) VALUES ('$title', '$publication', '$id')";
-
-            // Exécution de la requête
-            mysqli_query($conn, $addBook) or die('Erreur SQL !' . $addBook . '<br>' . mysqli_error($conn));
-        }
+    // Exécution de la requête
+    mysqli_query($conn, $addBook) or die('Erreur SQL !' . $addBook . '<br>' . mysqli_error($conn));
+}
