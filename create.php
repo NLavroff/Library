@@ -38,6 +38,9 @@ $result = $conn->query("SELECT * FROM Author");
             $publication = $_POST['publication'];
             $id = $_POST['author_id'];
 
+            // Fonction pour ignorer les caractères spéciaux
+            $title = mysqli_real_escape_string($conn, $_POST['title']);
+
             // Requête d'insertion
             $addBook = "INSERT INTO Books (title, publication, author_id) VALUES ('$title', '$publication', '$id')";
 

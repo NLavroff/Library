@@ -16,21 +16,27 @@ $result = $conn->query("SELECT title FROM Books");
 
 <h1>Supprimer un livre</h1> <br>
 <form method="POST" action="">
-<label for="author">Titre du livre</label><br>
-<select name="title" id="title"><br>
-    <?php while ($row = $result->fetch_assoc()) { ?>
-        <option value=<?php echo $row["title"]; ?>><?php echo $row["title"]; ?></option>
-    <?php } ?>
+    <label for="author">Titre du livre</label><br>
+    <select name="title" id="title"><br>
+        <?php while ($row = $result->fetch_assoc()) { ?>
+            <option value=<?php echo $row["title"]; ?>><?php echo $row["title"]; ?></option>
+        <?php } ?>
 
-    <input type="submit" name="deleteBtn" value="Supprimer">
+        <input type="submit" name="deleteBtn" value="Supprimer">
 
-    <?php
-    if (isset($_POST['deleteBtn'])) {
-        $title = $_POST['title'];
-       
-        $deleteBook = "DELETE FROM Books WHERE title='$title'";
+        <?php
+        if (isset($_POST['deleteBtn'])) {
+            $title = $_POST['title'];
 
-        mysqli_query($conn, $deleteBook) or die('Erreur SQL !' . $deleteBook . '<br>' . mysqli_error($conn));
-        echo "<meta http-equiv='refresh' content='0'>";
-    }
-    ?>
+
+            // Fonction pour ignorer les caractères spéciaux
+            $title = mysqli_real_escape_string($conn, $_POST['title']);
+
+            // Requête de suppression
+            $deleteBook = "DELETE FROM Books WHERE title='$title'";
+
+            mysqli_query($conn, $deleteBook) or die('Erreur SQL !' . $deleteBook . '<br>' . mysqli_error($conn));
+            // Réactualisation auto de la page :
+            echo "<meta http-equiv='refresh' content='0'>";
+        }
+        ?>
