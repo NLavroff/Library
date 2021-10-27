@@ -1,4 +1,3 @@
-
 <h1>Liste des livres de la blibliothèque</h1> <br>
 
     <?php
