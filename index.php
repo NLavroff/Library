@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 
@@ -83,23 +82,32 @@ if (isset($_SESSION['login'])) {
         <input id="search" name="search" type="search" placeholder="Rechercher un titre..." />
 
         <select name="publication" id="id"><br>
-            <option value="1900"> Livres publiés avant 1900</option>
-            <option value="1910"> Livres publiés avant 1910</option>
-            <option value="1920"> Livres publiés avant 1920</option>
-            <option value="1930"> Livres publiés avant 1930</option>
-            <option value="1940"> Livres publiés avant 1940</option>
-            <option value="1950"> Livres publiés avant 1950</option>
-            <option value="1960"> Livres publiés avant 1960</option>
-            <option value="1970"> Livres publiés avant 1970</option>
-            <option value="1980"> Livres publiés avant 1980</option>
-            <option value="1990"> Livres publiés avant 1990</option>
-            <option value="2000"> Livres publiés avant 2000</option>
-            <option value="2010"> Livres publiés avant 2010</option>
-            <option value="2020"> Livres publiés avant 2020</option>
+            <option value="1900">Livres publiés avant 1900</option>
+            <option value="1910">Livres publiés avant 1910</option>
+            <option value="1920">Livres publiés avant 1920</option>
+            <option value="1930">Livres publiés avant 1930</option>
+            <option value="1940">Livres publiés avant 1940</option>
+            <option value="1950">Livres publiés avant 1950</option>
+            <option value="1960">Livres publiés avant 1960</option>
+            <option value="1970">Livres publiés avant 1970</option>
+            <option value="1980">Livres publiés avant 1980</option>
+            <option value="1990">Livres publiés avant 1990</option>
+            <option value="2000">Livres publiés avant 2000</option>
+            <option value="2010">Livres publiés avant 2010</option>
+            <option value="2020">Livres publiés avant 2020</option>
         </select>
         <input type="submit" value="Rechercher" />
     </form>
+    <?php
+/* on vérifie que l'information "menu_destination" existe ET qu'elle n'est pas vide : */
+if ( isset($_POST['publication']) && !empty($_POST['publication']) ) 
 
+/* si c'est bien le cas (existe ET non-vide à la fois), on redirige le visiteur vers sa valeur choisie de l'information "menu_direction" : */
+     {header("Location: ".$_POST['publication']."");}
+
+/* sinon, on le redirige vers une autre page utile : */
+
+?>
     <table>
         <tr>
             <th>Titre</th>
@@ -121,15 +129,18 @@ if (isset($_SESSION['login'])) {
                     <form method="POST" action="cart.php" name="cart">
                         <input type="hidden" name="id" value="<?php echo $row["id"]; ?>" />
                         <button type="submit">Ajouter au panier</button>
+                    </form>
                 </td>
-                </form>
             </tr>
         <?php } ?>
     </table>
+
+ 
     <form method="POST" action="create.php" name="create">
         <input type="hidden" name="add" value="">
         <button type="submit">Ajouter un nouveau livre</button>
     </form>
+
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 session_start();
 
@@ -6,32 +6,11 @@ if (isset($_SESSION['login'])) {
 
     echo 'Bonjour ' . $_SESSION['login'] . '! Vous êtes connecté sur le panier de la bibliothèque ! <br>';
     echo '<a href="logout.php">Se déconnecter</a>';
+} else {
+    header('location: login.php');
+    die();
 }
-else{
-    header ('location: login.php');
-}
 
-/* Initialisation du panier */
-$_SESSION['panier'] = array();
-/* Subdivision du panier */
-$_SESSION['panier']['id'] = array();
-$_SESSION['panier']['title'] = array();
-
-?> 
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Panier</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<h1>Mon panier</h1> <br>
-
-<?php
 $servername = 'localhost';
 $username = 'root';
 $password = '';
@@ -44,26 +23,60 @@ if ($conn->connect_error) {
     die('Erreur : ' . $conn->connect_error);
 }
 
-$cart = "SELECT Books.id, title, firstname, lastname, publication FROM Books JOIN Author ON Books.author_id=Author.id";
-var_dump($_SESSION);
-echo $_POST['id'];
-var_dump($cart);
-$result = $conn->query($cart);
 ?>
-<table>
-        <tr>
-            <th>Titre</th>
-            <th>Auteur</th>
-            <th>Année de publication</th>
-           
-        </tr>
 
-        <?php while ($row = $result->fetch_assoc()) { ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Panier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Mon panier</h1> <br> 
+    <?php
+    if (!empty($_POST)) {
+        $verifier = true;
+        $id = $_POST['id'];
+
+        if (isset($_SESSION['cartItems'])) {
+            foreach ($_SESSION['cartItems'] as $item) {
+                if ($id == $item['id']) {
+                    echo "<br> Ce livre est déjà dans le panier : " . $item['title'] . "<br>";
+                    $verifier = false;
+                    break;
+                }
+            }
+        }
+
+        if ($verifier == true) {
+            $sql = "SELECT Books.id, title, firstname, lastname, publication FROM Books JOIN Author ON Books.author_id=Author.id WHERE Books.id=" . $id;
+            $result = $conn->query($sql);
+            $_SESSION['cartItems'][] = $result->fetch_assoc();
+        }
+    }
+    ?>
+
+    <?php
+        if (isset($_SESSION['cartItems'])) {?>
+            <table>
             <tr>
-            <td><?php $_SESSION['panier'] = array() ?></td>
-                <td><?php $_SESSION["title"]; ?></td>
-                </td>
-                </form>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Année de publication</th>
             </tr>
-        <?php } ?>
+            <?php
+            for ($i = 0; $i < count($_SESSION['cartItems']); $i++) { ?>
+                <tr>
+                    <td><?php echo $_SESSION['cartItems'][$i]["title"]; ?></td>
+                    <td><?php echo $_SESSION['cartItems'][$i]["firstname"] . " " . $_SESSION['cartItems'][$i]["lastname"]; ?></td>
+                    <td><?php echo $_SESSION['cartItems'][$i]["publication"]; ?></td>
+                </tr>
+        <?php }
+        }else{echo "<br>Votre panier est vide !";} ?>
     </table>
+</body>
+
+</html>

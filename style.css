@@ -1,0 +1,28 @@
+th {
+    background-color: #04AA6D;
+    color: white;
+  }
+  tr:hover {background-color: rgb(221, 221, 211);}
+
+  th, td {
+    padding: 20px;
+    text-align: left;
+
+  }
+  
+  h1, form {
+    text-align: center;
+    color: rgb(90, 224, 162);
+  }
+
+  table {
+    display: flex;
+    justify-content: center;
+    
+  }
+  tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #04AA6D;
+  color: white;
+}

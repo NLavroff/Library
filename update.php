@@ -1,4 +1,17 @@
-<?php
+<?php 
+
+session_start();
+
+if (isset($_SESSION['login'])) {
+
+    echo 'Bonjour ' . $_SESSION['login'] . '! Vous êtes connecté sur le panier de la bibliothèque ! <br>';
+    echo '<a href="logout.php">Se déconnecter</a>';
+}
+else{
+    header ('location: login.php');
+    die();
+}
+
 $servername = 'localhost';
 $username = 'root';
 $password = '';
@@ -24,14 +37,22 @@ if (isset($_POST['btn'])) {
     $editBook = "UPDATE Books SET title='$title', publication='$publication' WHERE id='$id'";
     mysqli_query($conn, $editBook) or die('Erreur SQL !' . $editBook . '<br>' . mysqli_error($conn));
     
-    header('Location: read.php');
+    header('Location: index.php');
 }
 
 $qry = mysqli_query($conn, "SELECT * from Books WHERE id=$id");
 //On créé une variable pour intégrer la value du champ
 $data = mysqli_fetch_array($qry);
 ?>
+<!DOCTYPE html>
+<html>
 
+<head>
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
 <h1>Editer un livre</h1> <br>
 
 <form method="POST">

@@ -1,4 +1,17 @@
 <?php
+
+session_start();
+
+if (isset($_SESSION['login'])) {
+
+    echo 'Bonjour ' . $_SESSION['login'] . '! Vous êtes connecté sur le panier de la bibliothèque ! <br>';
+    echo '<a href="logout.php">Se déconnecter</a>';
+}
+else{
+    header ('location: login.php');
+    die();
+}
+
 $servername = 'localhost';
 $username = 'root';
 $password = '';
@@ -17,5 +30,5 @@ $id = $_GET['id'];
 $deleteBook = "DELETE FROM Books WHERE id='$id'";
 mysqli_query($conn, $deleteBook) or die('Erreur SQL !' . $deleteBook . '<br>' . mysqli_error($conn));
 
-header('Location: read.php');
+header('Location: index.php');
 ?>

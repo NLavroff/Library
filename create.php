@@ -1,4 +1,17 @@
 <?php
+
+session_start();
+
+if (isset($_SESSION['login'])) {
+
+    echo 'Bonjour ' . $_SESSION['login'] . '! Vous êtes connecté sur l\'ajout de livre ! <br>';
+    echo '<a href="logout.php">Se déconnecter</a>';
+}
+else{
+    header ('location: login.php');
+    die();
+}
+
 $servername = 'localhost';
 $username = 'root';
 $password = '';
@@ -14,7 +27,15 @@ if ($conn->connect_error) {
 //Requête liste des auteurs
 $result = $conn->query("SELECT * FROM Author");
 ?>
+<!DOCTYPE html>
+<html>
 
+<head>
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
 <h1>Ajouter un livre</h1> <br>
 
 <form method="POST" action="">
@@ -48,5 +69,5 @@ if (isset($_POST['btn'])) { // contrôle pour vérifier si la variable $_POST['b
     // Exécution de la requête
     mysqli_query($conn, $addBook) or die('Erreur SQL !' . $addBook . '<br>' . mysqli_error($conn));
     
-    header('Location: read.php');
+    header('Location: index.php');
 }
