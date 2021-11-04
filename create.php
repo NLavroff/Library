@@ -37,16 +37,16 @@ $result = $conn->query("SELECT * FROM Author");
 if (isset($_POST['btn'])) { // contrôle pour vérifier si la variable $_POST['btn'] est bien définie
     $title = $_POST['title'];
     $publication = $_POST['publication'];
-    $idAuthor = $_POST['author_id'];
+    $id = $_POST['author_id'];
 
     // Fonction pour ignorer les caractères spéciaux
     $title = mysqli_real_escape_string($conn, $_POST['title']);
 
     // Requête d'insertion
-    $addBook = "INSERT INTO Books (title, publication, author_id) VALUES ('$title', '$publication', '$idAuthor')";
+    $addBook = "INSERT INTO Books (title, publication, author_id) VALUES ('$title', '$publication', '$id')";
 
     // Exécution de la requête
     mysqli_query($conn, $addBook) or die('Erreur SQL !' . $addBook . '<br>' . mysqli_error($conn));
-
+    
     header('Location: read.php');
 }

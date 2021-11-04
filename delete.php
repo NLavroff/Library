@@ -11,10 +11,10 @@ if ($conn->connect_error) {
     die('Erreur : ' . $conn->connect_error);
 }
 
-$idBook = $_GET['id'];
+$id = $_GET['id'];
 
 // Requête de suppression
-$deleteBook = "DELETE FROM Books WHERE id='$idBook'";
+$deleteBook = "DELETE FROM Books WHERE id='$id'";
 mysqli_query($conn, $deleteBook) or die('Erreur SQL !' . $deleteBook . '<br>' . mysqli_error($conn));
 
 header('Location: read.php');

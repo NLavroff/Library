@@ -23,7 +23,7 @@ if (isset($_POST['btn'])) {
 
     $editBook = "UPDATE Books SET title='$title', publication='$publication' WHERE id='$id'";
     mysqli_query($conn, $editBook) or die('Erreur SQL !' . $editBook . '<br>' . mysqli_error($conn));
-
+    
     header('Location: read.php');
 }
 
@@ -53,3 +53,4 @@ $data = mysqli_fetch_array($qry);
     </select>
     <input type="submit" name="btn" value="Modifier">
 </form>
+
